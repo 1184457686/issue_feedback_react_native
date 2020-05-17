@@ -5,26 +5,84 @@ import {
     TextInput,
     StyleSheet,
     Dimensions,
-    Button,
-    TouchableOpacity
+    TouchableOpacity,
+    Alert
 } from 'react-native'
 var { height, width } = Dimensions.get('window');
+import Request from '../api/Request';
 class login extends Component {
+    state = {
+        email: '',
+        password: ''
+    }
+    loginRequest = () => {
+        const { navigation } = this.props;
+        const data = {
+            "account_id": this.state.email,
+            "password": this.state.password
+        }
+        Request('/v1/login', data, 'POST')
+            .then(res => {
+                if (res.ok) {
+                    switch (res.result.role_id) {
+                        case "USER":
+                            navigation.navigate('用户')
+                            break;
+                        case "MANAGER":
+                            navigation.navigate('管理员')
+                            break;
+                        case "DEVELOPER":
+                            navigation.navigate('开发人员')
+                            break;
+                    }
 
+                } else {
+                    const error = res.message
+                    Alert.alert(error)
+                }
+            })
+    }
+    checklogin = () => {
+        const { email, password } = this.state;
+        if (email == '' || password == '') {
+            Alert.alert("邮箱或密码不能为空");
+        }
+        else {
+            this.loginRequest();
+        }
+    }
     render() {
-        const { navigation } = this.props;    
+        const { navigation } = this.props;
+
         return (
             <View style={{ backgroundColor: 'Silver', width: width, height: height, justifyContent: 'center' }}>
                 <View style={styles.loginView}>
                     <Text style={{ fontSize: 30 }}>信息反馈系统</Text>
                     <View style={styles.login}>
-                        <TextInput placeholder={'请输入邮箱'} style={styles.loginText} />
-                        <TextInput placeholder={'请输入密码'} style={styles.loginText} secureTextEntry />
+                        <TextInput
+                            placeholder={'请输入邮箱'}
+                            style={styles.loginText}
+                            onChangeText={(value) => {
+                                this.setState({
+                                    email: value
+                                })
+                            }}
+                        />
+                        <TextInput
+                            placeholder={'请输入密码'}
+                            style={styles.loginText}
+                            secureTextEntry={true}
+                            onChangeText={(value) => {
+                                this.setState({
+                                    password: value
+                                })
+                            }}
+                        />
                     </View>
                     <TouchableOpacity
                         activeOpacity={0.1}
                         style={styles.loginBthStyle}
-                        onPress={() => navigation.navigate('用户')}
+                        onPress={() => this.checklogin()}
                     >
                         <Text>登录</Text>
                     </TouchableOpacity>
