@@ -20,16 +20,17 @@ export default class registe extends Component {
         password: ''
     }
     RegisteAccount = () => {
+        const { navigation } = this.props;
         const data = {
             'account_id': this.state.email,
             'password': this.state.password
         }
 
-        Request('/1/account', data, 'POST')
+        Request('/v1/account', data, 'POST')
             .then(res => {
                 if (res.ok) {
                     Alert.alert('注册成功！')
-                    navigation.navigator('登录')
+                    navigation.navigate('登录')
                 } else {
                     const error = res.error_type == undefined ? '邮箱格式错误' : res.message
                     Alert.alert(error)
@@ -37,12 +38,10 @@ export default class registe extends Component {
             })
     }
     checkInput = () => {
-        var pattern = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
+      
         const { email, password } = this.state;
         if (email == '' || password == '') {
             Alert.alert("邮箱或密码不能为空");
-        } else if (!email.match(pattern) || password.match()) {
-            Alert.alert("邮箱格式不正确")
         }
         else {
             this.RegisteAccount();
@@ -62,10 +61,10 @@ export default class registe extends Component {
                             placeholder={'请输入邮箱'}
                             visible-password={email}
                             style={styles.loginText}
-                            onChangeText={value => {
-                                this.setState = {
+                            onChangeText={(value) => {
+                                this.setState ({
                                     email: value
-                                }
+                                })
                             }}
                         />
                         <TextInput
@@ -73,9 +72,9 @@ export default class registe extends Component {
                             style={styles.loginText}
                             secureTextEntry={true}
                             onChangeText={(value) => {
-                                this.setState = {
+                                this.setState ({
                                     password: value
-                                }
+                                })
                             }}
                         />
                     </View>

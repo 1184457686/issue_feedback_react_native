@@ -12,8 +12,7 @@ var { height, width } = Dimensions.get('window');
 class login extends Component {
 
     render() {
-        const { navigation } = this.props;
-       
+        const { navigation } = this.props;    
         return (
             <View style={{ backgroundColor: 'Silver', width: width, height: height, justifyContent: 'center' }}>
                 <View style={styles.loginView}>
