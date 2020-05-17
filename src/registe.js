@@ -13,9 +13,8 @@ export default class registe extends Component {
     render() {
         return (
             <Stack.Navigator headerMode="none">
-                <Stack.Screen name="123" component={registed} />
+                <Stack.Screen name="registe" component={registed} />
             </Stack.Navigator>
-
         )
     }
 }

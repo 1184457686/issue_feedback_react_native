@@ -13,8 +13,8 @@ class App extends Component {
   render() {
     return (
       <NavigationContainer>
-      <Stack.Navigator initialRouteName="登陆"  headerMode="none">
-        <Stack.Screen name="登陆" component={Login} />
+      <Stack.Navigator initialRouteName="登录"  headerMode="none">
+        <Stack.Screen name="登录" component={Login} />
         <Stack.Screen name="用户" component={User} />
         <Stack.Screen name="注册" component={registe} />
       </Stack.Navigator>
