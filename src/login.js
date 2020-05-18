@@ -72,6 +72,7 @@ class login extends Component {
                             placeholder={'请输入密码'}
                             style={styles.loginText}
                             secureTextEntry={true}
+                            contextMenuHidden={true}
                             onChangeText={(value) => {
                                 this.setState({
                                     password: value
@@ -82,7 +83,8 @@ class login extends Component {
                     <TouchableOpacity
                         activeOpacity={0.1}
                         style={styles.loginBthStyle}
-                        onPress={() => this.checklogin()}
+                        // onPress={() => this.checklogin()}
+                        onPress={()=>navigation.navigate('用户')}
                     >
                         <Text>登录</Text>
                     </TouchableOpacity>

@@ -8,7 +8,7 @@ import { createStackNavigator } from "@react-navigation/stack";
 var Login = require('./src/login').default;
 var User =require('./src/User').default;
 var registe = require('./src/registe').default;
-var manager =req
+var manager= require('./src/manager').default;
 const Stack = createStackNavigator();
 class App extends Component {
   render() {
@@ -17,7 +17,7 @@ class App extends Component {
       <Stack.Navigator initialRouteName="登录"  headerMode="none">
         <Stack.Screen name="登录" component={Login} />
         <Stack.Screen name="注册" component={registe} />
-        <Stack.Screen name="用户" component={User} />
+        <Stack.Screen name="管理员" component={manager} />
         <Stack.Screen name="用户" component={User} />
       </Stack.Navigator>
     </NavigationContainer>
