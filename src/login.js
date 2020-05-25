@@ -6,24 +6,29 @@ import {
     StyleSheet,
     Dimensions,
     TouchableOpacity,
-    Alert
+    Alert,
+    ImageBackground
 } from 'react-native'
 var { height, width } = Dimensions.get('window');
 import Request from '../api/Request';
+import AsyncStorage from '@react-native-community/async-storage'
 class login extends Component {
     state = {
         email: '',
-        password: ''
+        password: '',
+
     }
     loginRequest = () => {
         const { navigation } = this.props;
         const data = {
             "account_id": this.state.email,
-            "password": this.state.password
+            "password": this.state.password,
         }
         Request('/v1/login', data, 'POST')
             .then(res => {
                 if (res.ok) {
+                    const token = res.result.token
+                    AsyncStorage.setItem('User_Token', token)
                     switch (res.result.role_id) {
                         case "USER":
                             navigation.navigate('用户')
@@ -55,7 +60,8 @@ class login extends Component {
         const { navigation } = this.props;
 
         return (
-            <View style={{ backgroundColor: 'Silver', width: width, height: height, justifyContent: 'center' }}>
+            // <View style={{ backgroundColor: 'Silver', width: width, height: height, justifyContent: 'center', }}>
+                <ImageBackground source={require('../resource/login.jpg')} style={{ width: width, height: height, justifyContent: 'center' }}>
                 <View style={styles.loginView}>
                     <Text style={{ fontSize: 30 }}>信息反馈系统</Text>
                     <View style={styles.login}>
@@ -83,8 +89,8 @@ class login extends Component {
                     <TouchableOpacity
                         activeOpacity={0.1}
                         style={styles.loginBthStyle}
-                        // onPress={() => this.checklogin()}
-                        onPress={()=>navigation.navigate('用户')}
+                        onPress={() => this.checklogin()}
+                    // onPress={() => navigation.navigate('用户')}
                     >
                         <Text>登录</Text>
                     </TouchableOpacity>
@@ -95,7 +101,7 @@ class login extends Component {
                         <Text style={{ color: "red" }}>立即注册</Text>
                     </TouchableOpacity>
                 </View>
-            </View>
+                </ImageBackground>
 
 
         );
@@ -108,7 +114,7 @@ const styles = StyleSheet.create({
         flexDirection: 'column',
         alignItems: "center",
 
-        backgroundColor: 'white',
+        // backgroundColor: 'white',
         opacity: 0.6
 
     },

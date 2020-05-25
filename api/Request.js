@@ -1,17 +1,15 @@
+
 const baseUrl = 'http://192.168.239.1:9999';
-const Request = (url, data, method = 'post') => {
+const Request = (url , data, method='get') => {
     return fetch(baseUrl + url, {
         method,
         body: JSON.stringify(data),
         headers: {
-            "Content-type": 'application/json'
+            'Content-Type': 'application/json'
         }
-
-    }).then(
-        res => (res.json())
-    )
-        .catch(
-            err => console.log(err)
-        )
+    })
+    .then(res => (res.json()))
+    .catch(err => console.log(err))
 }
-export default Request;
+
+export default Request
