@@ -5,10 +5,10 @@ import {
 } from 'react-native'
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from "@react-navigation/stack";
-var Login = require('./src/login').default;
-var User =require('./src/User').default;
-var registe = require('./src/registe').default;
-var manager= require('./src/manager').default;
+var Login = require('./src/Home/login').default;
+var User =require('./src/User/User').default;
+var registe = require('./src/Home/registe').default;
+var manager= require('./src/Manager/manager').default;
 const Stack = createStackNavigator();
 class App extends Component {
   render() {
