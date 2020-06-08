@@ -9,6 +9,7 @@ var Login = require('./src/Home/login').default;
 var User =require('./src/User/User').default;
 var registe = require('./src/Home/registe').default;
 var manager= require('./src/Manager/manager').default;
+var detail =require("./src/User/feedbackdetail").default
 const Stack = createStackNavigator();
 class App extends Component {
   render() {
@@ -19,6 +20,7 @@ class App extends Component {
         <Stack.Screen name="注册" component={registe} />
         <Stack.Screen name="管理员" component={manager} />
         <Stack.Screen name="用户" component={User} />
+        <Stack.Screen name="反馈详情" component={detail} />
       </Stack.Navigator>
     </NavigationContainer>
     )
