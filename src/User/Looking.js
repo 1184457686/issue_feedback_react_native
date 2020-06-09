@@ -8,12 +8,14 @@ import {
     Dimensions,
     TouchableOpacity,
     ScrollView,
-    Alert
+    Alert,
+    ImageBackground
 } from 'react-native'
 import { Picker } from "@react-native-community/picker"
 import BaseRequest from "../../api/BaseRequest"
 import DeviceStorage from "../../api/DeviceStorage"
 import { PinchGestureHandler } from 'react-native-gesture-handler'
+import AsyncStorage from '@react-native-community/async-storage'
 
 var { width } = Dimensions.get("window")
 var { height } = Dimensions.get("window")
@@ -25,7 +27,8 @@ export default class vote extends Component {
         refreshing: false,
         products: [],
         index: 0,
-        feedbacks: []
+        feedbacks: [],
+        position: 0
     }
 
     //获取所有产品
@@ -64,11 +67,7 @@ export default class vote extends Component {
             var name = products[i].name
             Pickers.push(
                 <Picker.Item label={name} value={i} key={i} />
-                // <Text>{name}</Text>
             )
-            // Views.push(
-            //     <Picker.Item name={name} />
-            // )
         }
 
         return (
@@ -79,7 +78,11 @@ export default class vote extends Component {
                     this.setState({
                         index: index
                     })
-                }}
+                    AsyncStorage.setItem("product_id", products[index].product_id)
+                    AsyncStorage.setItem("manager_id", products[index].manager_id)
+
+                }
+                }
             >
                 {Pickers}
             </Picker>
@@ -94,27 +97,39 @@ export default class vote extends Component {
         // console.log(this.state.feedbacks.length)
         const Views = []
         const { feedbacks } = this.state
-        const {navigation} =this.props
+        const { navigation } = this.props
         for (let i = 0; i < feedbacks.length; i++) {
             var title = feedbacks[i].title
+            var description = feedbacks[i].description
             Views.push(
                 // <View key={i} style={{ width: width, height: 60, flexDirection: "row", backgroundColor: "res", }}>
                 <TouchableOpacity
-                key={i}
-                onPress={()=>{
-                    navigation.navigate("反馈详情")
-                }}
-                >
-                <View  style={styles.feedbackstyle}>
-                    <Image source={require("../../resource/head.png")} style={{ width: 60, height: 60,marginLeft:15 }} />
-                    <View style={styles.right}>
-                        <Text >{title}</Text>
-                        <Text>123</Text>
-                    </View>
-                    <View>
+                    key={i}
+                    style={{ marginTop: 10, backgroundColor: "rgb(171,220,235)" }}
+                    onPress={() => {
+                        AsyncStorage.setItem("issue_id",feedbacks[i].issue_id)
+                        // console.log(typeof(feedbacks[i].issue_id))
+                        this.setState({
+                            position: i
+                        }, () => {
 
-                    </View>
-                </View >
+                            AsyncStorage.setItem("index", this.state.position.toString())
+                        }
+                        )
+
+                        navigation.navigate("反馈详情")
+                    }}
+                >
+                    <View style={styles.feedbackstyle}>
+                        <Image source={require("../../resource/head.png")} style={{ width: 60, height: 60, marginLeft: 15 }} />
+                        <View style={styles.right}>
+                            <Text >{title}</Text>
+                            <Text>{description}</Text>
+                        </View>
+                        <View>
+
+                        </View>
+                    </View >
                 </TouchableOpacity>
 
             )
@@ -123,7 +138,7 @@ export default class vote extends Component {
 
         // console.log(Views.length)
         return (
-            <ScrollView style={{ height: height - 100}}>
+            <ScrollView style={{ height: height - 100 }} >
                 {Views}
             </ScrollView>
 
@@ -137,13 +152,15 @@ export default class vote extends Component {
         this.getProduct()
         // this._getfeedback()
     }
+    //待修改 componentDidUpdate()里面不能存在setstate  否则会无限调用
     componentDidUpdate() {
         this._getfeedback()
     }
     render() {
         const { navigation } = this.props
         return (
-            <View>
+            <ImageBackground source={require("../../resource/FeedbackList.jpg")} style={{ width: width, height: height }} >
+                {/* <View> */}
                 <Image
                     source={require("../../resource/feedback.jpg")}
                     style={{ width: width, height: 100 }}
@@ -153,7 +170,7 @@ export default class vote extends Component {
                 <TouchableOpacity
                     style={styles.addfeedback}
                     onPress={() => {
-                        // navigation.navigate("反馈")
+                        navigation.navigate("反馈")
                         // console.log(keys)
                         // this.getFeedback()
                         // this._getfeedback()
@@ -166,7 +183,8 @@ export default class vote extends Component {
                     />
                     {/* <Text>123</Text> */}
                 </TouchableOpacity>
-            </View>
+                {/* </View> */}
+            </ImageBackground>
         )
     }
 }
@@ -186,11 +204,11 @@ const styles = StyleSheet.create({
         width: width,
         height: 60,
         flexDirection: "row",
-       
+
     },
-    right:{
-        marginLeft:10,
-        marginTop:10
+    right: {
+        marginLeft: 10,
+        marginTop: 10
     }
 })
 

@@ -24,9 +24,11 @@ export default class feedback extends Component {
 
     FeedbackContainer =async () => {
         const {navigation}=this.props
+        const product_id=DeviceStorage.get("product_id")
+        const manager_id=DeviceStorage.get("manager_id")
         const data = {
-            "product_id": this.state.product_id,
-            "owner_id": this.state.owner_id,
+            "product_id": product_id,
+            "owner_id": manager_id,
             "title": this.state.title,
             "description": this.state.description,
 
@@ -46,12 +48,8 @@ export default class feedback extends Component {
             })
     }
     checkcontainer = () => {
-        const { product_id, owner_id, title } = this.state;
-        if (product_id == '') {
-            Alert.alert("产品ID为空")
-        } else if (owner_id == '') {
-            Alert.alert("创建者ID为空")
-        } else if (title == '') {
+        const {title } = this.state;
+       if (title == '') {
             Alert.alert("主题为空")
         } else {
             this.FeedbackContainer()
@@ -61,24 +59,6 @@ export default class feedback extends Component {
         return (
             <View style={{ backgroundColor: "rgb(242,242,242)", alignItems: "center" }}>
                 <View style={{ marginTop: 15 }}>
-                    <TextInput
-                        placeholder="请输入产品ID"
-                        style={styles.textInput}
-                        onChangeText={(value) => {
-                            this.setState({
-                                product_id: value
-                            })
-                        }}
-                    />
-                    <TextInput
-                        placeholder="请输入创建者ID"
-                        style={styles.textInput}
-                        onChangeText={(value) => {
-                            this.setState({
-                                owner_id: value
-                            })
-                        }}
-                    />
                     <TextInput
                         placeholder="请输入主题"
                         style={styles.textInput}
@@ -102,6 +82,7 @@ export default class feedback extends Component {
                 <TouchableOpacity
                     style={styles.Touch}
                     onPress={() => this.checkcontainer()}
+                    // onPress={()=> {this.props.navigation.navigate("浏览")}}
                 >
                     <Text style={styles.text}>提交反馈</Text>
                 </TouchableOpacity>
