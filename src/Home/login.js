@@ -30,6 +30,7 @@ class login extends Component {
                 if (res.ok) {
                     const token = res.result.token
                     const id = res.result.user_id
+                    console.log(id)
                     AsyncStorage.setItem('Token', token)
                     AsyncStorage.setItem('id', id)
 
@@ -92,9 +93,9 @@ class login extends Component {
                     <TouchableOpacity
                         activeOpacity={0.1}
                         style={styles.loginBthStyle}
-                        // onPress={() => this.checklogin()}
+                        onPress={() => this.checklogin()}
                         // onPress={() => navigation.navigate('管理员')}
-                        onPress={() => navigation.navigate('用户')}
+                        // onPress={() => navigation.navigate('用户')}
                     >
                         <Text>登录</Text>
                     </TouchableOpacity>

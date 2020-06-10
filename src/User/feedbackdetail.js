@@ -4,12 +4,14 @@ import {
     View,
     Image,
     Dimensions,
-    StyleSheet
+    StyleSheet,
+    Alert
 } from 'react-native'
 import { TouchableOpacity, TextInput, ScrollView } from 'react-native-gesture-handler'
 
 import DeviceStorage from "../../api/DeviceStorage"
 import BaseRequest from "../../api/BaseRequest"
+import Request from "../../api/Request"
 
 var { width, height } = Dimensions.get("window")
 
@@ -17,10 +19,14 @@ export default class feedbackdetail extends Component {
     state = {
         feedbacks: [],
         reviews: [],
+        backgroundColor: "",
         index: 0,
+        hidden: true,
         time: "",
         like: "white",
-        dislike: "white"
+        dislike: "white",
+        title: "",
+        description: ""
     }
     //获取反馈
     _getfeedback = async () => {
@@ -128,7 +134,9 @@ export default class feedbackdetail extends Component {
                             <TouchableOpacity
                                 style={{ marginLeft: 80 }}
                                 onPress={() => {
-                                    this.
+                                    this.setState({
+                                        hidden: false
+                                    })
                                 }}
                             >
                                 <Image source={require("../../resource/review.png")} style={{ width: 25, height: 25, tintColor: "white" }} />
@@ -148,6 +156,90 @@ export default class feedbackdetail extends Component {
             </View>
         )
     }
+    // 判断评论是否为空
+    judge = () => {
+        const { description } = this.state
+        if (description == "") {
+            Alert.alert("评论为空")
+        } else {
+            this.addreview(0)
+        }
+    }
+    //向后台评论
+    addreview = async () => {
+        const issue_id = await DeviceStorage.get("issue_id")
+        const user_id = await DeviceStorage.get("id")
+        const token = await DeviceStorage.get("Token")
+        const data = {
+            "issue_id": issue_id,
+            "user_id": user_id,
+            "content": this.state.description
+        }
+        const res = await Request("/service/v1/comment", data, "POST", token)
+        if (res.ok) {
+            this.setState({
+                hidden: true
+            })
+        } else {
+            const err = res.errors.message
+            console.log(err)
+        }
+
+
+
+    }
+    // 添加评论页面
+    _addreviewView = () => {
+        const { hidden } = this.state
+        const addreviewView = []
+        // console.log(hidden)
+        if (hidden) {
+            return;
+        }
+        else {
+            addreviewView.push(
+                <View style={{ width: width * 15 / 16, height: height / 3, backgroundColor: "gray", opacity: .9 }} key={1}>
+                    <TextInput
+                        style={{ width: width * 14 / 16, height: height / 5, marginLeft: 5, textAlignVertical: 'top', borderRadius: 5, borderColor: "red" }}
+                        multiline={true}
+                        // contextMenuHidden={true}
+                        onChangeText={(value) => {
+                            this.setState({
+                                description: value
+                            })
+
+                        }}
+                    />
+                    <TouchableOpacity
+                        style={{
+                            width: width / 2,
+                            height: 35,
+                            borderRadius: 20,
+                            alignSelf: 'center',
+                            backgroundColor: 'skyblue',
+                            marginTop: 20,
+                            justifyContent: 'center',
+                            alignItems: 'center'//显示Text组件居中}}
+                        }}
+                        onPress={async () => {
+                            this.judge()
+                            this.setState({
+                                hidden: true
+                            })
+                        }}
+                    >
+                        <Text>确定</Text>
+                    </TouchableOpacity>
+                </View>
+            )
+            return (
+                <View style={{ position: "absolute", left: width / 32, top: height / 3 }}>
+                    {addreviewView}
+                </View>
+            )
+        }
+    }
+
     // 获取评论
     _getreview = async () => {
 
@@ -156,26 +248,26 @@ export default class feedbackdetail extends Component {
 
         // console.log(issue_id)
         const res = await BaseRequest(url, "GET")
-        console.log(res)
+        // console.log(res)
         res.ok ?
             this.setState({
                 reviews: res.result.comments
             }) :
             console.log(res)
-
     }
+    // 评论列表
     _reviewView = () => {
         const reviewView = []
         const { reviews } = this.state
         for (let i = 0; i < reviews.length; i++) {
             reviewView.push(
                 <View key={i} style={{ flexDirection: "row", marginTop: 20 }}>
-                    <View style={{marginLeft:8}}>
+                    <View style={{ marginLeft: 8 }}>
                         <Image source={require("../../resource/head.png")} style={{ width: 50, height: 50 }} />
                         <Text style={{ marginTop: 10 }}>{reviews[i].owner.nickname}</Text>
                     </View>
                     <View style={{ flexDirection: "column" }}>
-                        <Text style={{marginLeft:190,fontSize:10}}>{reviews[i].created_at.substring(0, 10)}</Text>
+                        <Text style={{ marginLeft: 190, fontSize: 10 }}>{reviews[i].created_at.substring(0, 10)}</Text>
                         <Text>{reviews[i].content}</Text>
 
                     </View>
@@ -183,7 +275,7 @@ export default class feedbackdetail extends Component {
             )
         }
         return (
-            <ScrollView style={{height:height}}>
+            <ScrollView style={{ height: height }}>
                 {reviewView}
             </ScrollView>
         )
@@ -197,26 +289,26 @@ export default class feedbackdetail extends Component {
         if (this.state.feedbacks.length == 0) {
             this._feedbacke()
         }
-        // if (this.state.reviews.length == 0) {
-            this._getreview()
-        // }
-
+        this._getreview()
     }
     render() {
         return (
             // <View >
             //     <Text> textInComponent </Text>
-            // </View>
+
             // <TouchableOpacity
             //     onPress={() =>
-            //         this._feedbacke()
+            //         this._addreview()
             //     }
             // >
             //     <Text>test</Text>
             // </TouchableOpacity>
-            <View style={{ width: width, height: height }}>
+            // </View>
+            <View style={{ width: width, height: height, backgroundColor: this.state.backgroundColor }}>
                 {this._feedbacke()}
                 {this._reviewView()}
+                {this._addreviewView()}
+
             </View>
         )
     }
