@@ -5,7 +5,6 @@ import { createStackNavigator } from '@react-navigation/stack'
 const Stack=createStackNavigator();
 var Looking =require( "./Looking").default
 var feedback = require('./feedback').default;
-
 export default class newpage extends Component {
     render() {
         return (

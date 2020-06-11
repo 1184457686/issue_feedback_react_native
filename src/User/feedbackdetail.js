@@ -162,10 +162,10 @@ export default class feedbackdetail extends Component {
         if (description == "") {
             Alert.alert("评论为空")
         } else {
-            this.addreview(0)
+            this.addreview()
         }
     }
-    //向后台评论
+    //向后台请求创建评论
     addreview = async () => {
         const issue_id = await DeviceStorage.get("issue_id")
         const user_id = await DeviceStorage.get("id")
@@ -202,7 +202,6 @@ export default class feedbackdetail extends Component {
                     <TextInput
                         style={{ width: width * 14 / 16, height: height / 5, marginLeft: 5, textAlignVertical: 'top', borderRadius: 5, borderColor: "red" }}
                         multiline={true}
-                        // contextMenuHidden={true}
                         onChangeText={(value) => {
                             this.setState({
                                 description: value

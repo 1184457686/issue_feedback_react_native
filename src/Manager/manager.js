@@ -17,7 +17,7 @@ class manager extends Component {
         return (
             <drawer.Navigator initialRouteName="反馈管理">
                 <drawer.Screen name="反馈管理" component={FeedbackManage} />
-                <drawer.Screen name="产品管理" component={discussion} />
+                <drawer.Screen name="产品管理" component={discussion}/>
             </drawer.Navigator>
           
             // 

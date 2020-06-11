@@ -27,10 +27,10 @@ class login extends Component {
         }
         Request('/v1/login', data, 'POST')
             .then(res => {
+                console.log(typeof(res))
                 if (res.ok) {
                     const token = res.result.token
                     const id = res.result.user_id
-                    console.log(id)
                     AsyncStorage.setItem('Token', token)
                     AsyncStorage.setItem('id', id)
 
