@@ -6,7 +6,7 @@ const Request = (url , data, method,token) => {
         body: JSON.stringify(data),
         headers: {
             'Content-Type': 'application/json',
-            "Authentication":token
+            "Authorization":token
         }
     })
     .then(res => (res.json()))

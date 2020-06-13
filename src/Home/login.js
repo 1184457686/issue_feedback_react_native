@@ -27,7 +27,6 @@ class login extends Component {
         }
         Request('/v1/login', data, 'POST')
             .then(res => {
-                console.log(typeof(res))
                 if (res.ok) {
                     const token = res.result.token
                     const id = res.result.user_id
@@ -62,7 +61,6 @@ class login extends Component {
     }
     render() {
         const { navigation } = this.props;
-
         return (
             // <View style={{ backgroundColor: 'Silver', width: width, height: height, justifyContent: 'center', }}>
             <ImageBackground source={require('../../resource/login.jpg')} style={{ width: width, height: height, justifyContent: 'center' }}>
@@ -74,12 +72,14 @@ class login extends Component {
                             style={styles.loginText}
                             onChangeText={(value) => {
                                 this.setState({
-                                    email: value
+                                    email: value,
+                                    password: ''
                                 })
                             }}
                         />
                         <TextInput
                             placeholder={'请输入密码'}
+                            defaultValue={this.state.password}
                             style={styles.loginText}
                             secureTextEntry={true}
                             contextMenuHidden={true}

@@ -103,35 +103,7 @@ export default class vote extends Component {
             var description = feedbacks[i].description
             Views.push(
                 // <View key={i} style={{ width: width, height: 60, flexDirection: "row", backgroundColor: "res", }}>
-                <TouchableOpacity
-                    key={i}
-                    style={{ marginTop: 10, backgroundColor: "rgb(171,220,235)" }}
-                    onPress={() => {
-                        AsyncStorage.setItem("issue_id",feedbacks[i].issue_id)
-                        // console.log(typeof(feedbacks[i].issue_id))
-                        this.setState({
-                            position: i
-                        }, () => {
-
-                            AsyncStorage.setItem("index", this.state.position.toString())
-                        }
-                        )
-
-                        navigation.navigate("反馈详情")
-                    }}
-                >
-                    <View style={styles.feedbackstyle}>
-                        <Image source={require("../../resource/head.png")} style={{ width: 60, height: 60, marginLeft: 15 }} />
-                        <View style={styles.right}>
-                            <Text >{title}</Text>
-                            <Text>{description}</Text>
-                        </View>
-                        <View>
-
-                        </View>
-                    </View >
-                </TouchableOpacity>
-
+               
             )
         }
 

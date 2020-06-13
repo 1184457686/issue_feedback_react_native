@@ -11,6 +11,7 @@ export default class newpage extends Component {
            <Stack.Navigator headerMode="none">
                <Stack.Screen name="浏览" component={Looking} />
                <Stack.Screen name="反馈" component={feedback} />
+               
            </Stack.Navigator>
         )
     }

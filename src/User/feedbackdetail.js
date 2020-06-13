@@ -64,7 +64,7 @@ export default class feedbackdetail extends Component {
 
     }
     //返回反馈
-    _feedbacke = () => {
+    _feedback = () => {
         const Myfeedback = []
         const { index } = this.state
         // console.log(this.state.index)
@@ -72,7 +72,7 @@ export default class feedbackdetail extends Component {
         const updated_time = time.substring(0, 10)
         //   console.log(time.substring(0,10))
         Myfeedback.push(
-            <View key={index} style={{ flexDirection: "row", backgroundColor: "gray", opacity: .6 }}>
+            <View key={index} style={{ flexDirection: "row", backgroundColor: "gray", opacity: .6}}>
                 {/* 用户头像 */}
                 <View>
                     <Text></Text>
@@ -198,7 +198,7 @@ export default class feedbackdetail extends Component {
         }
         else {
             addreviewView.push(
-                <View style={{ width: width * 15 / 16, height: height / 3, backgroundColor: "gray", opacity: .9 }} key={1}>
+                <View style={{width: width * 15 / 16, height: height / 3, backgroundColor: "gray", opacity: .9}} key={1}>
                     <TextInput
                         style={{ width: width * 14 / 16, height: height / 5, marginLeft: 5, textAlignVertical: 'top', borderRadius: 5, borderColor: "red" }}
                         multiline={true}
@@ -260,7 +260,7 @@ export default class feedbackdetail extends Component {
         const { reviews } = this.state
         for (let i = 0; i < reviews.length; i++) {
             reviewView.push(
-                <View key={i} style={{ flexDirection: "row", marginTop: 20 }}>
+                <View key={i} style={{ flexDirection: "row", marginTop: 20,flexDirection: "row", backgroundColor: "gray", opacity: .5 }}>
                     <View style={{ marginLeft: 8 }}>
                         <Image source={require("../../resource/head.png")} style={{ width: 50, height: 50 }} />
                         <Text style={{ marginTop: 10 }}>{reviews[i].owner.nickname}</Text>
@@ -304,7 +304,7 @@ export default class feedbackdetail extends Component {
             // </TouchableOpacity>
             // </View>
             <View style={{ width: width, height: height, backgroundColor: this.state.backgroundColor }}>
-                {this._feedbacke()}
+                {this._feedback()}
                 {this._reviewView()}
                 {this._addreviewView()}
 

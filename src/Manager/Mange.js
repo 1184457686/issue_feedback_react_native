@@ -12,8 +12,10 @@ import { createStackNavigator} from "@react-navigation/stack"
 import Ioncons from "react-native-vector-icons"
 
 const products  = require('./Products').default
-const  CreateProduct = require('./CreateProduct').default
+const  CreateProduct = require('.//CreateProduct').default
+const TagPortion = require("./TagPortion").default
 const Stack = createStackNavigator();
+
 
 export default class discussion extends Component {
     render() {
@@ -30,6 +32,7 @@ export default class discussion extends Component {
             <Stack.Navigator headerMode="none">
                 <Stack.Screen name="产品管理" component={products} />
                 <Stack.Screen name="创建产品" component={CreateProduct} />
+                <Stack.Screen name="添加标签" component={TagPortion} />
             </Stack.Navigator>
         )
     }
