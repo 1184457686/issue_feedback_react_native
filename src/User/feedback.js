@@ -12,6 +12,7 @@ import {
 
 import Request from '../../api/Request';
 import DeviceStorage from '../../api/DeviceStorage'
+import {Picker} from "native-base"
 
 var { width } = Dimensions.get('screen');
 export default class feedback extends Component {
@@ -24,8 +25,8 @@ export default class feedback extends Component {
 
     FeedbackContainer =async () => {
         const {navigation}=this.props
-        const product_id=DeviceStorage.get("product_id")
-        const manager_id=DeviceStorage.get("manager_id")
+        const product_id=await DeviceStorage.get("product_id")
+        const manager_id=await DeviceStorage.get("manager_id")
         const data = {
             "product_id": product_id,
             "owner_id": manager_id,

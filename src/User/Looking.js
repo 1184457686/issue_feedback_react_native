@@ -11,7 +11,7 @@ import {
     Alert,
     ImageBackground
 } from 'react-native'
-import { Picker } from "@react-native-community/picker"
+import { Picker } from "native-base"
 import BaseRequest from "../../api/BaseRequest"
 import DeviceStorage from "../../api/DeviceStorage"
 import { PinchGestureHandler } from 'react-native-gesture-handler'
@@ -45,6 +45,7 @@ export default class vote extends Component {
     _getfeedback = async () => {
         const index = this.state.index
         const product_id = this.state.products[index].product_id
+        AsyncStorage.setItem("product_id", this.state.products[index].product_id)
         // console.log(product_id)
         const url = "/service/v1/issue/product/" + product_id + "?status=opening"
         const res = await BaseRequest(url, "GET")
@@ -62,7 +63,7 @@ export default class vote extends Component {
     _PickerList = () => {
         const Pickers = []
         const Views = []
-        const { products } = this.state
+        const { products,index} = this.state
         for (let i = 0; i < products.length; i++) {
             var name = products[i].name
             Pickers.push(
@@ -73,7 +74,7 @@ export default class vote extends Component {
         return (
             <Picker
                 mode="dropdown"
-                selectedValue={this.state.index}
+                selectedValue={index}
                 onValueChange={(index) => {
                     this.setState({
                         index: index
@@ -93,7 +94,6 @@ export default class vote extends Component {
 
     //展示特定产品下的反馈
     _ScreenView = () => {
-
         // console.log(this.state.feedbacks.length)
         const Views = []
         const { feedbacks } = this.state
@@ -103,10 +103,34 @@ export default class vote extends Component {
             var description = feedbacks[i].description
             Views.push(
                 // <View key={i} style={{ width: width, height: 60, flexDirection: "row", backgroundColor: "res", }}>
-               
+                <TouchableOpacity
+                key={i}
+                style={{ marginTop: 10, backgroundColor: "rgb(171,220,235)" }}
+                onPress={() => {
+                    AsyncStorage.setItem("issue_id",feedbacks[i].issue_id)
+                    // console.log(typeof(feedbacks[i].issue_id))
+                    this.setState({
+                        position: i
+                    }, () => {
+                        AsyncStorage.setItem("index", this.state.position.toString())
+                    }
+                    )
+                    navigation.navigate("反馈详情")
+                }}
+            >
+                <View style={styles.feedbackstyle}>
+                    <Image source={require("../../resource/head.png")} style={{ width: 60, height: 60, marginLeft: 15 }} />
+                    <View style={styles.right}>
+                        <Text >{title}</Text>
+                        <Text>{description}</Text>
+                    </View>
+                    <View>
+
+                    </View>
+                </View >
+            </TouchableOpacity>
             )
         }
-
 
         // console.log(Views.length)
         return (
@@ -127,6 +151,7 @@ export default class vote extends Component {
     //待修改 componentDidUpdate()里面不能存在setstate  否则会无限调用
     componentDidUpdate() {
         this._getfeedback()
+        this._ScreenView()
     }
     render() {
         const { navigation } = this.props

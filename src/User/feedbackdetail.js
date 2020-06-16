@@ -286,7 +286,7 @@ export default class feedbackdetail extends Component {
     }
     componentDidUpdate() {
         if (this.state.feedbacks.length == 0) {
-            this._feedbacke()
+            this._feedback()
         }
         this._getreview()
     }

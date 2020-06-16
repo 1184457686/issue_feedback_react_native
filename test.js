@@ -1,25 +1,29 @@
 import React, { Component } from 'react'
-import { Text, View } from 'react-native'
-import VisibleView from "rn-visible-view"
+import { Text, View, Alert, TouchableOpacity } from 'react-native'
+import { } from 'react-native-gesture-handler'
 
 export default class test extends Component {
-    render() {
-      return (
-        <View style={styles.container}>
-          <Text style={styles.welcome}>
-            Welcome to React Native!
-          </Text>
-  
-          <VisibleView visible={true}>
-            <Text style={styles.instructions}>
-              To get started, edit index.ios.js
-            </Text>
-            <Text style={styles.instructions}>
-              Press Cmd+R to reload,{'\n'}
-              Cmd+D or shake for dev menu
-            </Text>
-          </VisibleView>
-        </View>
-      );
-    }
+  state = {
+    a: []
   }
+  render() {
+    return (
+      <View>
+        <TouchableOpacity
+          onPress={() => {
+            this.state.a.push("123")
+          }}
+        >
+          <Text>123</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => {
+            console.log(this.state.a.length)
+          }}
+        >
+          <Text>456</Text>
+        </TouchableOpacity>
+      </View>
+    )
+  }
+}

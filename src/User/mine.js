@@ -9,7 +9,6 @@ import {
     Alert
 } from 'react-native'
 import { TouchableOpacity, TextInput } from 'react-native-gesture-handler'
-import { Picker } from "@react-native-community/picker"
 import DeviceStorage from "../../api/DeviceStorage"
 import BaseRequest from "../../api/BaseRequest"
 import Request from "../../api/Request"

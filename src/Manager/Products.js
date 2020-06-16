@@ -11,7 +11,6 @@ import {
 } from 'react-native'
 
 import { navigation } from "@react-navigation/native"
-import { Picker } from "@react-native-community/picker"
 
 import BaseRequest from '../../api/BaseRequest'
 import Request from '../../api/Request'
