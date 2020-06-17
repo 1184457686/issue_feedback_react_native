@@ -114,7 +114,7 @@ export default class TagPortion extends Component {
                     <TouchableOpacity 
                     key={i} style={{ flexDirection: "row", backgroundColor: feedbacks[index].tags[i].color, width: 70, height: 50,zIndex:1 }}
                     onPress={()=>
-                        this.UpadataTag(feedbacks[index].tags[i].name)
+                        this.UpdateTag(feedbacks[index].tags[i].name)
                     }
                     >
                         <Text style={{ alignSelf: "flex-start" }}>{feedbacks[index].tags[i].name}</Text>
@@ -138,7 +138,7 @@ export default class TagPortion extends Component {
         }
     }
     //更新标签
-    UpadataTag = async (name) => {
+    UpdateTag = async (name) => {
         const issue_id = await DeviceStorage.get("issue_id")
         const url = "/service/v1/issue/" + issue_id + "/tag"
         const arr =[name]
@@ -150,8 +150,6 @@ export default class TagPortion extends Component {
         } else {
             console.log(res.message)
         }
-
-
     }
     componentDidMount() {
         this._getfeedback()
